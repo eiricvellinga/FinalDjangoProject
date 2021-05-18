@@ -129,6 +129,15 @@ def extract_answers(request):
             submitted_anwsers.append(choice_id)
     return submitted_anwsers
 
+def submit(request, course_id):
+    user = request.user
+    course = Course.objects.get(pk=course_id)
+    enrollment = Enrollment.objects.get(user=user,course=course)
+    submission=Submission.objects.create(enrollment=enrollment)
+    ans = extract_answers(request)
+    submission.choices.set(answers)
+    submission.save()
+    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_xam_result',args=(course.id,submission.id)))
 
 # <HINT> Create an exam result view to check if learner passed exam and show their question results and result for each question,
 # you may implement it based on the following logic:
