@@ -8,10 +8,10 @@ from .models import Course, Lesson, Instructor, Learner, Question, Choice
 class LessonInline(admin.StackedInline):
     model = Lesson
     extra = 5
-
-class QuestionInline(admin.QuestionAdmin):
-    model = Question
-    extra = 3
+    
+class ChoiceInline(admin.StackedInline)
+    model = Choice
+    extra = 4
     
 
 # Register your models here.
@@ -25,6 +25,10 @@ class CourseAdmin(admin.ModelAdmin):
 class LessonAdmin(admin.ModelAdmin):
     list_display = ['title']
 
+class QuestionAdmin(admin.ModelAdmin)
+    inline = [ChoiceInline]
+    
+
 
 # <HINT> Register Question and Choice models here
 
@@ -32,5 +36,5 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Lesson, LessonAdmin)
 admin.site.register(Instructor)
 admin.site.register(Learner)
-admin.site.register(Question)
+admin.site.register(Question, QuestionAdmin)
 admin.site.register(Choice)
