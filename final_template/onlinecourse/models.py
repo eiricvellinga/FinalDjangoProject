@@ -102,10 +102,9 @@ class Enrollment(models.Model):
     # Has question content
     # Other fields and methods you would like to design
 class Question(models.Model):
-    Question = models.ForeignKey(Course, on_delete=models.CASCADE)
-    model = models.ManyToManyField(Course)
+    lesson_id = models.ForeignKey(Course, on_delete=models.CASCADE)
     # charfield for question
-    question_text = models.CharField(null=False, max_length=100)
+    question_text = models.CharField(max_length=100)
     # numfield for grade
     grade = models.ForeignKey(Lesson, on_delete=models.CASCADE)
     # Foreign key to lesson
@@ -129,8 +128,12 @@ def is_get_score(self, selected_ids):
     # Indicate if this choice of the question is a correct one or not
     # Other fields and methods you would like to design
 class Choice(models.Model):
-    enrollment = models.ForeignKey(Question, on_delete=models.CASCADE)
+    question_id = models.ForeignKey(Question, on_delete=models.CASCADE)
     choice_text = models.CharField(null=False, max_length=100)
+    is_correct = models.BooleanField(default=False)
+    def __str__(self):
+        return self.content + (' :is correct' if self.is_correct else ' :not correct') 
+    
 # <HINT> The submission model
 # One enrollment could have multiple submission
 # One submission could have multiple choices
